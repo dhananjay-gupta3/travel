@@ -30,9 +30,15 @@ router.put('/:id', authenticate, async (req, res) => {
 });
 
 // Admin - Delete a package
-router.delete('/:id', authenticate, async (req, res) => {
-    await Package.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Package deleted' });
+router.delete('/api/admin/packages/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedPackage = await Package.findByIdAndDelete(id);
+        if (!deletedPackage) { return res.status(404).json({ message: 'Package not found' }); }
+        res.status(200).json({ message: 'Package deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting package' });
+    }
 });
 
 module.exports = router;

@@ -34,7 +34,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     padding: 2rem;
-    gap: 25px;
+    gap: 85px;
     /* added gap between cards */
 }
 

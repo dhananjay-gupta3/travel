@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './AdminPanel.css';
@@ -21,12 +21,17 @@ const AdminPanel = () => {
     }, []);
 
     const fetchPackages = () => {
-        const authCredentials = localStorage.getItem('authCredentials');
-        axios.get('http://localhost:5000/api/packages', {
-            headers: { Authorization: authCredentials }
-        })
-            .then(response => setPackages(response.data))
-            .catch(error => console.error(error));
+        const authCredentials = JSON.parse(localStorage.getItem('authCredentials'));
+        if (authCredentials) {
+            const { username, password } = authCredentials;
+            axios.get('http://localhost:5000/api/packages', {
+                auth: { username, password }
+            })
+                .then(response => setPackages(response.data))
+                .catch(error => console.error(error));
+        } else {
+            console.error('No authentication credentials found');
+        }
     };
 
     const handleChange = (e) => {
@@ -38,41 +43,42 @@ const AdminPanel = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const authCredentials = localStorage.getItem('authCredentials');
+        const authCredentials = JSON.parse(localStorage.getItem('authCredentials'));
         const formattedData = {
             ...formData,
-            price: Number(formData.price), // Ensure price is a number
-            dates: formData.dates.split(',').map(date => date.trim()) // Ensure dates is an array of strings
+            price: Number(formData.price),
+            dates: formData.dates.split(',').map(date => date.trim())
         };
 
-        if (editMode) {
-            // Update an existing package
-            axios.put(`http://localhost:5000/api/admin/packages/${currentPackageId}`, formattedData, {
-                headers: { Authorization: authCredentials }
-            })
-                .then(response => {
-                    console.log(response);
-                    fetchPackages();
-                    setFormData({ title: '', description: '', price: '', dates: '', image: '' });
-                    setEditMode(false);
-                    setCurrentPackageId(null);
+        if (authCredentials) {
+            const { username, password } = authCredentials;
+            if (editMode) {
+                axios.put(`http://localhost:5000/api/admin/packages/${currentPackageId}`, formattedData, {
+                    auth: { username, password }
                 })
-                .catch(error => {
-                    console.error('Error updating package:', error.response ? error.response.data : error.message);
-                });
+                    .then(response => {
+                        fetchPackages();
+                        setFormData({ title: '', description: '', price: '', dates: '', image: '' });
+                        setEditMode(false);
+                        setCurrentPackageId(null);
+                    })
+                    .catch(error => {
+                        console.error('Error updating package:', error.response ? error.response.data : error.message);
+                    });
+            } else {
+                axios.post('http://localhost:5000/api/admin/packages', formattedData, {
+                    auth: { username, password }
+                })
+                    .then(response => {
+                        fetchPackages();
+                        setFormData({ title: '', description: '', price: '', dates: '', image: '' });
+                    })
+                    .catch(error => {
+                        console.error('Error adding package:', error.response ? error.response.data : error.message);
+                    });
+            }
         } else {
-            // Add a new package
-            axios.post('http://localhost:5000/api/admin/packages', formattedData, {
-                headers: { Authorization: authCredentials }
-            })
-                .then(response => {
-                    console.log(response);
-                    fetchPackages();
-                    setFormData({ title: '', description: '', price: '', dates: '', image: '' });
-                })
-                .catch(error => {
-                    console.error('Error adding package:', error.response ? error.response.data : error.message);
-                });
+            console.error('No authentication credentials found');
         }
     };
 
@@ -83,19 +89,24 @@ const AdminPanel = () => {
             title: pkg.title,
             description: pkg.description,
             price: pkg.price,
-            dates: pkg.dates.join(', '), // Convert array to comma-separated string
+            dates: pkg.dates.join(', '),
             image: pkg.image
         });
     };
-
     const handleDelete = (id) => {
-        const authCredentials = localStorage.getItem('authCredentials');
-        axios.delete(`http://localhost:5000/api/admin/packages/${id}`, {
-            headers: { Authorization: authCredentials }
-        })
-            .then(() => fetchPackages())
-            .catch(error => console.error(error));
+        const authCredentials = JSON.parse(localStorage.getItem('authCredentials'));
+        if (authCredentials) {
+            const { username, password } = authCredentials;
+            axios.delete(`http://localhost:5000/api/admin/packages/${id}`, {
+                auth: { username, password }
+            })
+                .then(() => fetchPackages())
+                .catch(error => console.error('Error deleting package:', error.response ? error.response.data : error.message));
+        } else {
+            console.error('No authentication credentials found');
+        }
     };
+
 
     const handleLogout = () => {
         localStorage.removeItem('authCredentials');

@@ -4,7 +4,7 @@ import './Login.css';
 
 const Login = () => {
     const [credentials, setCredentials] = useState({ username: '', password: '' });
-    const naviagte = useNavigate();
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -12,9 +12,11 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // Basic authentication logic (replace with real authentication logic)
         if (credentials.username === 'admin' && credentials.password === 'password') {
-            localStorage.setItem('auth', 'true');
-            naviagte('/admin');
+            // Store credentials
+            localStorage.setItem('authCredentials', JSON.stringify(credentials));
+            navigate('/admin');
         } else {
             alert('Invalid credentials');
         }
