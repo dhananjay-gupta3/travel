@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.booking-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    overflow: hidden;
+    /* Prevent scrolling */
+}
+
+.booking-form {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    /* Reduce the width */
+    height: auto;
+    /* Ensure height adjusts based on content */
+}
+
+.booking-form h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 90%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #4CAF50;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.btn-submit:hover {
+    background: #256ef5;
+}
+
+@media (max-width: 600px) {
+    .booking-form {
+        padding: 15px;
+        max-width: 300px;
+        /* Reduce width for smaller screens */
+    }
+
+    .booking-form h1 {
+        font-size: 1.25rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 6px;
+    }
+
+    .btn-submit {
+        padding: 8px;
+    }
+}

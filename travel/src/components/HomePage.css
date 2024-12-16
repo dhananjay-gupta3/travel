@@ -1,0 +1,161 @@
+/* Global Styles */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+/* Header Styles */
+
+.header {
+    background-color: #74f6f2;
+    color: #86e9ff;
+    padding: 1rem;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Card Styles */
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 2rem;
+    gap: 25px;
+    /* added gap between cards */
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    /* removed margin */
+    padding: 1rem;
+    width: calc(33.33% - 20px);
+    /* adjusted width to account for gap */
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.card p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+
+
+.card .link-button:hover {
+    background-color: #98fce2;
+}
+.book-button{
+   background-color: #72d8fa;
+color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+  
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+        margin: 1rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-container {
+        padding: 1rem;
+    }
+
+    .card {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+
+    .card img {
+        height: 100px;
+    }
+}
+
+/* Hover Effects */
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover .link-button {
+    background-color: #87f6d5;
+}
+
+/* Added media query to display 3 cards in a row */
+
+@media (min-width: 992px) {
+    .card-container {
+        flex-wrap: nowrap;
+    }
+
+    .card {
+        margin: 0 20px;
+        /* added margin to account for gap */
+    }
+}
+
+/* Added CSS to display only 3 cards in a row */
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 2rem;
+    gap: 20px;
+    max-width: 1200px;
+    /* added max-width to limit number of cards */
+}
+
+.card {
+    flex-basis: calc(33.33% - 20px);
+    /* adjusted width to account for gap */
+}
+
+.card:nth-child(4) {
+    margin-top: 20px;
+    /* added margin to move 4th card to next row */
+}
